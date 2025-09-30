@@ -1,0 +1,78 @@
+search_windows_assets:
+  lib: custom
+  replacement: (dataset="$vt_lookups" lookupFile="cribl.windows_assets")
+  createdBy: simon Duchene
+  modified: 1758805480512
+  created: 1758282911727
+search_windows_state:
+  lib: custom
+  replacement: ${windows_state_dataset}   os.platform="win*"
+  createdBy: simon Duchene
+  modified: 1759151870236
+  created: 1758807917914
+suspicious_message:
+  lib: custom
+  replacement: 'Message matches regex
+    "(failed|unauthorized|denied|malicious|attack|exploit|escalation|suspicious|brute
+    force|privilege|ransomware|trojan|virus|worm|backdoor|rootkit|phishing|credential|bypass|injection|shell|powershell|mimikatz|psexec|remote|lateral|movement|exfiltration|enumeration|reconnaissance|scan|probe|CVE-\\d{4}-\\d{4,7})"
+    '
+  createdBy: simon Duchene
+  modified: 1758808850225
+  created: 1758808850225
+suspicious_EventID:
+  lib: custom
+  replacement: "EventID in
+    (1102,517,4624,528,4625,529,4648,552,4688,592,4697,601,4698,602,4720,624,47\
+    22,632,4732,636,4768,4769,4771,4776,4798,4799,5136,5140,5145) "
+  createdBy: simon Duchene
+  modified: 1758880842442
+  created: 1758808877170
+  description: EventID with mitre attack alignement, see the lookup for more details
+windows_process_dataset:
+  lib: custom
+  replacement: dataset=sysmon
+  description: typical sysmon data
+  createdBy: simon Duchene
+  modified: 1758888043537
+  created: 1758888043537
+windows_log_dataset:
+  lib: custom
+  replacement: 'dataset="win_xml" '
+  tags: windows
+  createdBy: simon Duchene
+  modified: 1758888506516
+  created: 1758888506516
+windows_state_dataset:
+  lib: custom
+  replacement: dataset=wed0907
+  createdBy: simon Duchene
+  modified: 1758888603215
+  created: 1758888603215
+search_failed_user_logon:
+  lib: custom
+  replacement: >-
+    ${pack(Cribl_Search_windows_OS).windows_log_dataset} 
+
+    | where (EventID==4625 OR ((EventID==4768 OR EventID==4771 OR EventID==4776) AND KEYWORDS=="0x8010000000000000"))  AND TargetUserName!="*$" 
+  createdBy: simon Duchene
+  modified: 1758905606921
+  created: 1758900801847
+windows_ad_dataset:
+  lib: custom
+  replacement: dataset=win_ad
+  createdBy: simon Duchene
+  modified: 1759152296612
+  created: 1759152296612
+host_error:
+  lib: custom
+  replacement: ("*Error*" OR "*Fail*" OR EventID=1074 OR EventID=19 OR EventID=20
+    OR EventID=21 OR EventID=1001)
+  createdBy: simon Duchene
+  modified: 1759163627756
+  created: 1759163004239
+WindowsUpdate:
+  lib: custom
+  replacement: dataType=WindowsUpdateLog
+  createdBy: simon Duchene
+  modified: 1759172589972
+  created: 1759172589972

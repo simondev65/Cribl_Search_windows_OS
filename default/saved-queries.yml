@@ -1,0 +1,42 @@
+windows_assets:
+  name: windows_assets
+  description: create a list of windows assets
+  isPrivate: false
+  query: >-
+    ${pack(Cribl_Search_windows_OS).search_windows_assets} or
+    ${pack(Cribl_Search_windows_OS).search_windows_state} or
+    ${pack(Cribl_Search_windows_OS).windows_log_dataset}
+
+    | project
+        _time = coalesce(SystemTime, _time),
+        host = coalesce(WorkstationName, Computer, host),
+        domain = coalesce(SubjectDomainName, env.USERDOMAIN, "n/a"),
+        os_name=os.os_name,
+        os_version=os.os_version, 
+        ip=coalesce(aws.identity.privateIp, ip)
+        |where host!="-"
+
+
+        
+    | summarize
+        os_name=findlastif(os_name, os_name != "null"),
+        os_version=findlastif(os_version, os_version != "null"),
+        domain = findlastif(domain, domain != "null"),
+        latest_activity_time = max(_time),
+        ip=findlastif(ip, ip!="null")
+    by host
+
+    | export mode=overwrite to lookup windows_assets
+  earliest: -1h
+  latest: now
+  schedule:
+    enabled: false
+    cronSchedule: 0 0 * * *
+    tz: UTC
+    keepLastN: 2
+    emptyNotifications: {}
+    emptyAdvanced: {}
+    notifications:
+      disabled: true
+  user: oidc|CriblCorpOkta|00uqbwsz1bzTYiOhK4x7
+  displayUsername: simon Duchene

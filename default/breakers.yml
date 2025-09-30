@@ -1,0 +1,86 @@
+windows_datatype_for_pack:
+  lib: custom
+  description: Datatype rules for MS Windows formats
+  tags: windows,eventlogclassic,eventlogxml
+  minRawLength: 256
+  rules:
+    - name: Windows Event Log Classic
+      condition: /^\d+\/\d+\/\d+\s\d+:\d+:\d+\s\w+[\r\n]+LogName=(?:Security|Application|System|Setup)/.test(_raw)
+      type: regex
+      timestampAnchorRegex: /^/
+      timestamp:
+        type: auto
+        length: 150
+      timestampTimezone: local
+      timestampEarliest: -1750408390s
+      timestampLatest: +10years
+      maxEventBytes: 51200
+      disabled: false
+      parserEnabled: true
+      eventBreakerRegex: /(?=\d{2}\/\d{2}\/\d{4}\s\d{2}:\d{2}:\d{2}\s[AM|PM])/
+      parser:
+        mode: extract
+        type: regex
+        srcField: _raw
+        iterations: 100
+        overwrite: false
+        cleanFields: false
+        allowedKeyChars: []
+        allowedValueChars: []
+        delimChar: ","
+        quoteChar: '"'
+        escapeChar: \
+        nullValue: "-"
+        dstField: out
+        regex: /LogName=(?<log_name>.+)[\r\n]+/
+        regexList:
+          - regex: /EventCode=(?<event_code>.+)[\r\n]+/
+          - regex: /EventType=(?<event_type>.+)[\r\n]+/
+          - regex: /ComputerName=(?<computer_name>.+)[\r\n]+/
+          - regex: /SourceName=(?<source_name>.+)[\r\n]+/
+          - regex: /Type=(?<type>.+)[\r\n]+/
+          - regex: /RecordNumber=(?<record_number>.+)[\r\n]+/
+          - regex: /Keywords=(?<keywords>.+)[\r\n]+/
+          - regex: /TaskCategory=(?<task_category>.+)[\r\n]+/
+          - regex: /OpCode=(?<opcode>.+)[\r\n]+/
+          - regex: /Message=(?<message>.+)[\r\n]+/
+      fields:
+        - name: datatype
+          value: "'windows_event_classic'"
+    - condition: /<Event xmlns=/.test(_raw)
+      type: regex
+      timestampAnchorRegex: /^/
+      timestamp:
+        type: auto
+        length: 150
+      timestampTimezone: local
+      timestampEarliest: -1750408390s
+      timestampLatest: +10years
+      maxEventBytes: 51200
+      disabled: false
+      parserEnabled: true
+      shouldUseDataRaw: true
+      eventBreakerRegex: /[\n\r]+(?!\s)/
+      parser:
+        mode: extract
+        type: regex
+        srcField: _raw
+        iterations: 200
+        overwrite: false
+        cleanFields: false
+        allowedKeyChars: []
+        allowedValueChars: []
+        delimChar: ","
+        quoteChar: '"'
+        escapeChar: \
+        nullValue: "-"
+        regex: /<(?<_KEY_0>[\w]+)>(?<_VALUE_0>[^<]*)<\/\1>/
+        regexList:
+          - regex: /<Data Name=[\"|\'](?<_NAME_1>\w+)[\"|\']>(?<_VALUE_1>[^<]+)/
+        fields: []
+      name: Windows XML Events
+      fields:
+        - name: DataType
+          value: "'win_xml'"
+        - name: host
+          value: WinEventLogForwardHost?WinEventLogForwardHost:Computer
