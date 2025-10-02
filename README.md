@@ -3,23 +3,23 @@
 
 This pack is for 
 
-* windows eventlogs data
+* Windows eventlogs data
 * process events (sysmon)
-* [system_state](https://docs.cribl.io/edge/sources-system-state/) input from  Cribl Edge Agent (or splunk winhostmon input)
+* [system_state](https://docs.cribl.io/edge/sources-system-state/) input from  Cribl Edge Agent (or Splunk winhostmon input)
 * Active Directory logs
 
-it allows you to :
-* parse windows event from XML
-* parse windows event from classic format
-* get instant analytics on eventcode, host issues, user behavior
+It allows you to :
+* Parse Windows event from XML
+* parse Windows event from classic format
+* get instant analytics on eventcode, host issues, and user behavior
 * build an asset list
-* Get mitre attack alignement with eventID
+* Get mitre attack alignment with eventID
 * and much more
 
 ## About this Pack
 
-This pack assumes you are windows event logs in _XML_ or _classic_ format. (Set datatype to `Microsoft Windows Datatypes`)
-* You could also parse the events to json before sending to lake and search. If you do so  `set a json datatype` to your dataset.
+This pack assumes you are receiving Windows event logs in XML or classic format, in an unparsed format. It is the easiest way to use this pack.
+* However, you could also parse the events to json before sending to the lake and search. If you do so, set a json datatype to your dataset.
 
 
 
@@ -28,19 +28,28 @@ This pack assumes you are windows event logs in _XML_ or _classic_ format. (Set 
 After installing this Pack :
 
 **Step 1:**
-choose a dataset to send your windows event to. (if you are using cribl lake, create a lake dataset first). Once created set the datatype to "windows_datatype_for_pack"  (you can find it inside the pack). This is mandatory for cribl search to parse the XML or classic windows event.
+Choose a dataset to send your Windows event to. This search pack assumes you will be grouping multiple datasets: 
+* Windows events logs: This dataset is getting those journals: WinEventLog://Application, WinEventLog://Security, WinEventLog://System, WinEventLog://ForwardedEvents
+* system state: This dataset is getting either Cribl Edge Agent [system_state](https://docs.cribl.io/edge/sources-system-state/) input, windows update log (collect $WINDIR\WindowsUpdate.log),  or those inputs from a Splunk universal Forwarder  winhostmon, winprintmon, win update ( default data sent to the windows index, [see table](https://help.splunk.com/en/splunk-it-service-intelligence/content-packs-for-itsi-and-ite/windows-dashboards-and-reports/1.4/content-pack-for-windows-dashboards-and-reports/get-windows-server-data#ariaid-title3)
+* Windows processes: sysmon events
+* Active Directory: if you are using Splunk Universal Forwarder, and following [this input-to-index setting](https://help.splunk.com/en/splunk-it-service-intelligence/content-packs-for-itsi-and-ite/windows-dashboards-and-reports/1.4/content-pack-for-windows-dashboards-and-reports/get-windows-server-data#ariaid-title3), the inputs toward the msad index are typically the source needed for this dataset
+    
+Create the dataset and assign the datatype : 
+
+In Cribl Lake, create the datasets.
+In Cribl search->data->dataset [assign the datatype](https://docs.cribl.io/search/set-up-azure-blob/#process-accel) to "windows_datatype_for_pack"  (you can find it inside the pack). This is mandatory for Cribl search to parse the XML or classic Windows event.
 
 **step 2:**
- configure the macros depending on your data available : 
-    set macro  "windows_log_dataset" for windows events to point to your log dataset. This is assuming you have only 1 dataset for your windows events.
-    set macro "windows_state_dataset" for system state. You can get [system_state](https://docs.cribl.io/edge/sources-system-state/) input from  Cribl Edge Agent, or use winhostmon input from a Splunk universal Forwarder, etc..
-    set macro "windows_process_dataset" for your sysmon events.
-    set macro "windows_ad_dataset" to point to your Active directory logs dataset.
+ configure the macros depending on the data available : 
+ * Windows events logs : set macro  "windows_log_dataset" for Windows events logs  to point to the dataset you chose in step 1.
+ * system state : set macro "windows_state_dataset" for system state. You can get [system_state](https://docs.cribl.io/edge/sources-system-state/) input from  Cribl Edge Agent, or use winhostmon, winprintmon input from a Splunk universal Forwarder, etc..
+ * Windows processes : set macro "windows_process_dataset" for your Sysmon events.
+ * Active Directory: Set macro "windows_ad_dataset" to point to your Active Directory logs dataset. I
 
-**Step 3 :**
-run the saved search. "windows_assets" to build the host list. Let it run, not seeing result is normal. search ${search_windows_assets} to verify it completed
+**Step 3:**
+Run the saved search. "windows_assets" to build the host list. Let it run; not seeing any result is normal. search ${search_windows_assets} to verify it completed
 
-**Step 4 :** 
+**Step 4:** 
 [schedule](https://docs.cribl.io/api/save-search-get-alerts/#schedule-search) this savedsearch search to run every day.
 
 OPTIONAL : 
@@ -55,7 +64,7 @@ Adjust suspicious eventcode to your liking in the macros : suspicious_EventID
 
 **Other sources**
 
-If you collect other sources such as *Windows Update Log*, we recommend you set a field dataType=WindowsUpdateLog for this source (you can do so in Cribl Edge or Stream) and send these logs in the win event log dataset. Adjust the Windows_Update_Log macro accrodingly.
+If you collect other sources such as *Windows Update Log*, we recommend you set a field dataType=WindowsUpdateLog for this source (you can do so in Cribl Edge or Stream) and send these logs in the Windows Event log dataset. Adjust the Windows_Update_Log macro accordingly.
 
 ## Upgrades
 
@@ -67,12 +76,12 @@ Empty for now
 
 ### Version 0.1.0 - 2025-10-05
 
-Initial release for windows event log, process event, system state and AD logs
+Initial release for Windows event log, process event, system state, and AD logs
 
 ## Contributing to the Pack
  
 
-To contribute to this Pack,  DM on Cribl community slack : Simon_cribl.io
+To contribute to this Pack,  DM on Cribl community Slack: Simon_cribl.io
  [Cribl Community Slack](https://cribl-community.slack.com).
 
 ## Contact
