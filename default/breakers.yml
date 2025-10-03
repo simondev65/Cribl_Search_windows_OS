@@ -121,7 +121,7 @@ windows_datatype_for_pack:
         quoteChar: '"'
         escapeChar: \
         nullValue: "-"
-        regex: /<(?<_KEY_0>[\w]+)(\s[\w=']+)?>(?<_VALUE_0>[^<]*)<\/\1>/
+        regex: /<(?<_KEY_0>[\w]+)(\s[\w='"]+)?>(?<_VALUE_0>[^<]*)<\/\1>/
         regexList:
           - regex: /<Data Name=[\"|\'](?<_NAME_1>\w+)[\"|\']>(?<_VALUE_1>[^<]+)/
         fields: []
@@ -131,3 +131,13 @@ windows_datatype_for_pack:
           value: "'windows_xml'"
         - name: host
           value: WinEventLogForwardHost?WinEventLogForwardHost:Computer
+        - name: Channel
+          value: Array.isArray(Channel)?Channel[0]:Channel
+        - name: Level
+          value: Array.isArray(Level)?Level[0]:Level
+        - name: Opcode
+          value: Array.isArray(Opcode)?Opcode[0]:Opcode
+        - name: Task
+          value: Array.isArray(Task)?Task[0]:Task
+        - name: Type
+          value: Level?(Level==2?"Error":(Level==3?"Warning":(Level==1?"Critical":null))):null
