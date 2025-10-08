@@ -92,7 +92,6 @@ To contribute to this Pack,  DM on Cribl community Slack: Simon_cribl.io
 To contact us please email sduchene@cribl.io
 
 ## License
-All publicly posted Packs must include a license that allows for use by the general public, such as Apache 2.0, MIT, or GNU.
-(Most Packs use the Apache 2.0 license.)
+
 
 This Pack uses the following license: [`Apache 2.0`](https://github.com/criblio/appscope/blob/master/LICENSE).
