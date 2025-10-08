@@ -78,7 +78,7 @@ Empty for now
 
 
 
-### Version 0.1.0 - 2025-10-05
+### Version 0.9.0 - 2025-10-05
 
 Initial release for Windows event log, process event, system state, and AD logs
 
