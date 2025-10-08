@@ -1,7 +1,8 @@
 # Cribl Search Windows OS
 ----
 
-This pack is for 
+Greetings!
+This search pack is for 
 
 * Windows eventlogs data
 * process events (sysmon)
@@ -18,8 +19,11 @@ It allows you to :
 
 ## About this Pack
 
-This pack assumes you are receiving Windows event logs in XML or classic format, in an unparsed format. It is the easiest way to use this pack.
-* However, you could also parse the events to json before sending to the lake and search. If you do so, set a json datatype to your dataset.
+This is for Cribl Search.
+
+This pack assumes you are receiving Windows event logs in XML or classic format, in an unparsed format (recommended).
+* Data collection can be done with [Cribl Edge](https://docs.cribl.io/edge/usecase-windows-observability/) or third party (Elastic agent, NXlog, Splunk UF...) 
+* If you decide to parse the events to json before sending to the lake and search : set a json datatype to your dataset.
 
 
 
