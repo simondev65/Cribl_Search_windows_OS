@@ -37,14 +37,14 @@ windows_process_dataset:
   created: 1758888043537
 windows_log_dataset:
   lib: custom
-  replacement: 'dataset="win_xml" '
+  replacement: 'dataset="windows_log" '
   tags: windows
   createdBy: simon Duchene
   modified: 1758888506516
   created: 1758888506516
 windows_state_dataset:
   lib: custom
-  replacement: dataset=wed0907
+  replacement: dataset="windows_state"
   createdBy: simon Duchene
   modified: 1758888603215
   created: 1758888603215
@@ -58,7 +58,7 @@ search_failed_user_logon:
   created: 1758900801847
 windows_ad_dataset:
   lib: custom
-  replacement: "dataset=win_ad "
+  replacement: dataset="windows_ad"
   createdBy: simon Duchene
   modified: 1759337849778
   created: 1759152296612
