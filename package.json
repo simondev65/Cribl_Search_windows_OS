@@ -1,1 +1,17 @@
-{"name":"Cribl_Search_windows_OS","version":"0.9.0","author":"Simon Duchene - Cribl","description":"This pack provides visibility into Windows event logs, system_state, process events and AD logs. It highlights performance and security signals at a glance, helping teams quickly spot anomalies.","displayName":"Windows OS","tags":{"streamtags":["windows","eventcode","os"]},"exports":["*"]}
+{
+    "name": "Cribl-Search-windows-OS",
+    "version": "0.9.0",
+    "author": "Simon Duchene - Cribl",
+    "description": "This pack provides visibility into Windows event logs, system_state, process events and AD logs. It highlights performance and security signals at a glance, helping teams quickly spot anomalies.",
+    "displayName": "Cribl-Search-windows-OS",
+    "tags": {
+        "streamtags": [
+            "windows",
+            "eventcode",
+            "os"
+        ]
+    },
+    "exports": [
+        "*"
+    ]
+}

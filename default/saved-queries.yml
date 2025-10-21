@@ -3,9 +3,9 @@ windows_assets:
   description: create a list of windows assets
   isPrivate: false
   query: >-
-    ${pack(Cribl_Search_windows_OS).search_windows_assets} or
-    ${pack(Cribl_Search_windows_OS).search_windows_state} or
-    ${pack(Cribl_Search_windows_OS).windows_log_dataset}
+    ${pack(Cribl-Search-windows-OS).search_windows_assets} or
+    ${pack(Cribl-Search-windows-OS).search_windows_state} or
+    ${pack(Cribl-Search-windows-OS).windows_log_dataset}
 
     | project
         _time = coalesce(SystemTime, _time),
