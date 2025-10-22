@@ -29,6 +29,9 @@ This pack assumes you are receiving Windows event logs in XML or classic format,
 
 ## Deployment. MUST READ
 
+Uploading the pack : 
+When Installing the pack, make sure you name it *cribl-search-windows-os* in lower case. Otherwise references to macros and lookups will be affected.
+
 After installing this Pack :
 
 **Step 1:**

@@ -50,7 +50,7 @@ windows_state_dataset:
   created: 1758888603215
 search_failed_user_logon:
   lib: custom
-  replacement: '${pack(Cribl-Search-windows-OS).windows_log_dataset}  Channel=="Security"|
+  replacement: '${pack(cribl-search-windows-os).windows_log_dataset}  Channel=="Security"|
     where (EventID==4625 OR ((EventID==4768 OR EventID==4771 OR EventID==4776)
     AND KEYWORDS=="0x8010000000000000"))  AND TargetUserName!="*$" '
   createdBy: simon Duchene
@@ -77,7 +77,7 @@ win_ad_search:
   created: 1759337805748
 search_windows_update_log:
   lib: custom
-  replacement: ${pack(Cribl-Search-windows-OS).windows_state_dataset}  Channel=="WindowsUpdateLog"
+  replacement: ${pack(cribl-search-windows-os).windows_state_dataset}  Channel=="WindowsUpdateLog"
   createdBy: simon Duchene
   modified: 1759437034724
   created: 1759436969818
